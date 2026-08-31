@@ -1,0 +1,9 @@
+{
+    "sid": "SE2022001",
+    "name": "D.T.R Jayasekara",
+    "app-url": "http://localhost:3000",
+    "git": "https://github.com/Dilsha0412/secure-stall-reservation",
+    "blog": [
+        "https://medium.com/@dilshajayasekara/building-a-secure-stall-reservation-platform-a-deep-dive-into-oidc-authentication-access-control-df553aff9813?postPublishedType=repub"
+    ]
+}
