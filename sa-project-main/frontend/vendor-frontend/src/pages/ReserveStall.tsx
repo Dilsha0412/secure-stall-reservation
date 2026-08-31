@@ -85,8 +85,8 @@ const ReserveStall: React.FC = () => {
       }, 2000);
     } catch (err: unknown) {
       const errorObj = err as { response?: { data?: { message?: string; details?: Record<string, string> } } };
-      const msg = errorObj.response?.data?.message || 
-                  (errorObj.response?.data?.details ? Object.values(errorObj.response.data.details).join(', ') : 'Reservation submission failed.');
+      const msg = errorObj.response?.data?.message ||
+        (errorObj.response?.data?.details ? Object.values(errorObj.response.data.details).join(', ') : 'Reservation submission failed.');
       setError(msg);
     } finally {
       setSubmitting(false);
@@ -131,7 +131,7 @@ const ReserveStall: React.FC = () => {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* User Identity / IdP Header Card */}
+        {/*IdP Header Card */}
         <div className="bg-gradient-to-r from-indigo-700 to-indigo-900 text-white rounded-2xl shadow-lg p-6 mb-8">
           <h2 className="text-xs uppercase tracking-wider font-semibold text-indigo-200 mb-2">Authenticated IdP Identity</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -150,7 +150,6 @@ const ReserveStall: React.FC = () => {
           </div>
         </div>
 
-        {/* Form Container */}
         <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
           <h2 className="text-xl font-bold text-gray-800 mb-6 border-b pb-3">Stall Reservation Request</h2>
 
@@ -169,7 +168,6 @@ const ReserveStall: React.FC = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Authenticated Username Read-only Field */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Vendor Username (Identified from IdP)
@@ -183,7 +181,6 @@ const ReserveStall: React.FC = () => {
               <p className="text-xs text-gray-400 mt-1">Automatically bound to your authenticated identity.</p>
             </div>
 
-            {/* Exhibition / Event Name */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Exhibition / Event Name *
@@ -203,7 +200,6 @@ const ReserveStall: React.FC = () => {
               </select>
             </div>
 
-            {/* Reservation Date */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Reservation Date (Calendar Selection) *
@@ -220,7 +216,6 @@ const ReserveStall: React.FC = () => {
               <p className="text-xs text-gray-500 mt-1">Must be on or after today's date ({todayStr}).</p>
             </div>
 
-            {/* Stall Type & Size Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -257,7 +252,6 @@ const ReserveStall: React.FC = () => {
               </div>
             </div>
 
-            {/* Number of Stalls & Category */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
@@ -295,7 +289,6 @@ const ReserveStall: React.FC = () => {
               </div>
             </div>
 
-            {/* Special Requirements */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
                 Special Requirements or Comments

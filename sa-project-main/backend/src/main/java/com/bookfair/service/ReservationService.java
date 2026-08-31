@@ -42,7 +42,7 @@ public class ReservationService {
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
         
-        // Date validation: Reservation date must be on or after current date
+        // Date validation
         if (request.getReservationDate() == null || request.getReservationDate().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Reservation Date must be on or after the current date");
         }
@@ -101,7 +101,6 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
             .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
-        // IDOR Ownership Enforcement: Users can only view their own reservation
         if (!reservation.getUser().getId().equals(user.getId())) {
             throw new SecurityException("Access Denied: You do not own this reservation");
         }

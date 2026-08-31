@@ -91,7 +91,6 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Top Navigation Bar */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div>
@@ -122,7 +121,6 @@ const Home: React.FC = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-        {/* Authenticated Profile Banner */}
         <section className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4 mb-4">
             <div>
@@ -250,7 +248,6 @@ const Home: React.FC = () => {
         </section>
       </main>
 
-      {/* Full Profile Information Modal */}
       {showProfileModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative">
