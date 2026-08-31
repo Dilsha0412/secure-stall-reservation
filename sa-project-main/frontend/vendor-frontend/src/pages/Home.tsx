@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { reservationApi, userApi } from '../services/api';
+import { reservationApi, userApi, authApi } from '../services/api';
 import { useAuth, type User } from '../context/AuthContext';
 
 interface ReservationRequest {
@@ -57,9 +57,15 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (e) {
+      console.warn("Logout API notice", e);
+    } finally {
+      logout();
+      navigate('/login');
+    }
   };
 
   const getStatusBadge = (status: string) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { reservationApi, userApi, type ReservationPayload } from '../services/api';
+import { reservationApi, userApi, authApi, type ReservationPayload } from '../services/api';
 import { useAuth, type User } from '../context/AuthContext';
 
 const PREDEFINED_EVENTS = [
@@ -93,9 +93,15 @@ const ReserveStall: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (e) {
+      console.warn("Logout API notice", e);
+    } finally {
+      logout();
+      navigate('/login');
+    }
   };
 
   return (

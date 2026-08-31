@@ -30,6 +30,8 @@ export const authApi = {
 
   login: (data: { email: string; password: string }) =>
     api.post('/auth/login', data),
+
+  logout: () => api.post('/auth/logout'),
 };
 
 export const userApi = {

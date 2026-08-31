@@ -20,6 +20,8 @@ api.interceptors.request.use((config) => {
 export const authApi = {
   employeeLogin: (data: { email: string; password: string }) =>
     api.post('/auth/employee/login', data),
+
+  logout: () => api.post('/auth/logout'),
 };
 
 export const employeeApi = {
