@@ -35,6 +35,14 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getUserReservations(email));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservationResponse> getReservationById(
+            @PathVariable Long id,
+            Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(reservationService.getReservationByIdForUser(id, email));
+    }
+
     @GetMapping("/organizer")
     public ResponseEntity<List<ReservationResponse>> getAllReservationsForOrganizer() {
         return ResponseEntity.ok(reservationService.getAllReservations());

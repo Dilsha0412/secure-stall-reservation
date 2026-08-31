@@ -52,19 +52,25 @@ public class ReservationService {
             throw new IllegalStateException("Maximum " + MAX_RESERVATIONS_PER_USER + " reservation requests allowed per vendor");
         }
 
+        String cleanEventName = com.bookfair.security.XssSanitizer.sanitize(request.getEventName());
+        String cleanStallType = com.bookfair.security.XssSanitizer.sanitize(request.getStallType());
+        String cleanStallSize = com.bookfair.security.XssSanitizer.sanitize(request.getPreferredStallSize());
+        String cleanCategory = com.bookfair.security.XssSanitizer.sanitize(request.getBusinessCategory());
+        String cleanRequirements = com.bookfair.security.XssSanitizer.sanitize(request.getSpecialRequirements());
+
         String username = user.getUsername() != null ? user.getUsername() : user.getEmail().split("@")[0];
-        String qrCode = generateQRCode(user.getBusinessName(), request.getEventName(), username);
+        String qrCode = generateQRCode(user.getBusinessName(), cleanEventName, username);
 
         Reservation reservation = Reservation.builder()
             .user(user)
             .username(username)
-            .eventName(request.getEventName())
+            .eventName(cleanEventName)
             .reservationDate(request.getReservationDate())
-            .stallType(request.getStallType())
-            .preferredStallSize(request.getPreferredStallSize())
+            .stallType(cleanStallType)
+            .preferredStallSize(cleanStallSize)
             .numberOfStalls(request.getNumberOfStalls())
-            .businessCategory(request.getBusinessCategory())
-            .specialRequirements(request.getSpecialRequirements())
+            .businessCategory(cleanCategory)
+            .specialRequirements(cleanRequirements)
             .status(Reservation.ReservationStatus.PENDING)
             .qrCode(qrCode)
             .confirmationEmail(user.getEmail())
@@ -76,13 +82,28 @@ public class ReservationService {
             emailService.sendReservationConfirmation(
                 user.getEmail(),
                 user.getBusinessName(),
-                request.getEventName(),
-                request.getPreferredStallSize(),
+                cleanEventName,
+                cleanStallSize,
                 qrCode
             );
         } catch (Exception e) {
             // Log email failure without breaking reservation creation
             System.err.println("Failed to send confirmation email: " + e.getMessage());
+        }
+
+        return mapToResponse(reservation);
+    }
+
+    public ReservationResponse getReservationByIdForUser(Long reservationId, String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+
+        Reservation reservation = reservationRepository.findById(reservationId)
+            .orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+        // IDOR Ownership Enforcement: Users can only view their own reservation
+        if (!reservation.getUser().getId().equals(user.getId())) {
+            throw new SecurityException("Access Denied: You do not own this reservation");
         }
 
         return mapToResponse(reservation);
